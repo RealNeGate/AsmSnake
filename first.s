@@ -1,4 +1,6 @@
 //; NOTE: I'm sorry, not very good at this...
+//; I followed the x64 software convention for practically everything
+//; https://docs.microsoft.com/en-us/cpp/build/x64-software-conventions?view=vs-2019
 //; Comment
 .extern MessageBoxA
 .extern GetModuleHandleA
@@ -33,7 +35,7 @@
 .set SCREEN_HEIGHT, 900
 .set SCREEN_PIXELS, SCREEN_WIDTH * SCREEN_HEIGHT
 .set SCREEN_BYTES, SCREEN_PIXELS * 4
-.set SCREEN_STRIDE, 3600
+.set SCREEN_STRIDE, SCREEN_WIDTH * 4
 .set SNAKE_MAX, 50
 .set TILE, 50
 
@@ -220,6 +222,7 @@ Game_GetTime:
 	mulsd   %xmm1, %xmm0
 	add $32, %rsp
 	ret
+
 
 Game_RandomNumber:
 	rdtsc
@@ -546,7 +549,7 @@ entry:
 					call SetWindowTextA
 					jmp Game_Tick_game_over_exit
 				Game_Physics_in_bounds:
-					//; NOTE: Store position
+					//; NOTE: Collide head with the body
 					//; counter : %r14 = SNAKE_LEN
 					mov SNAKE_LEN(%rip), %r14
 					//; while (counter-- > 0) {
@@ -567,10 +570,11 @@ entry:
 
 						jmp Game_Physics_out_of_bounds
 					Game_Physics_collide_body_head_exit:
-
+					//; NOTE: Set the snake head position
 					lea SNAKE_POS(%rip), %rdx
 					movl %r8d, 0(%rdx)
 					movl %r9d, 4(%rdx)
+					//; }
 					//;jmp Game_Physics_tick_end
 			Game_Physics_tick_end:
 			//; Retitle the window
