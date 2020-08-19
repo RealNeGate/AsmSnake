@@ -13,3 +13,5 @@ This project took about two days totalling around 700 lines of code and the proc
 [Releases](https://github.com/RealNeGate/AsmSnake/releases)
 
 [Snake Icon](https://creazilla.com/nodes/45196-snake-emoji-clipart)
+
+[Snake Icon License (CC v4.0)](https://creativecommons.org/licenses/by/4.0/)
